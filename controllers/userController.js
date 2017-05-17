@@ -37,3 +37,24 @@ exports.register = async (req, res, next) => {
 	await register(user, req.body.password);
 	next();
 };
+
+exports.validateLogin = (req, res, next) => {
+	req.checkBody('email', 'That email is not valid.').isEmail();
+	req.checkBody('password', 'Password cannot be blank').notEmpty();
+	req.sanitizeBody('email').normalizeEmail({
+		remove_dots: false,
+		remove_extension: false,
+		gmail_remove_subaddress: false
+	});
+	const errors = req.validationErrors();
+	if(errors) {
+		req.flash('error', errors.map(err => err.msg));
+		res.redirect('back');
+		return;
+	}
+	next();
+};
+
+exports.account = (req, res) => {
+	res.render('account', {title: 'Edit your Account'})
+};

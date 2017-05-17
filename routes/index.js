@@ -10,12 +10,13 @@ router.get('/', catchErrors(storeController.getStores));
 router.get('/stores', catchErrors(storeController.getStores));
 router.get('/stores/:id/edit', catchErrors(storeController.editStore));
 router.get('/stores/:slug', catchErrors(storeController.getStore));
-router.get('/add', storeController.addStore);
+router.get('/add', authController.isLoggedIn, storeController.addStore);
 router.get('/tags', catchErrors(storeController.getStoresByTag));
 router.get('/tags/:tag', catchErrors(storeController.getStoresByTag));
 router.get('/login', userController.loginForm);
 router.get('/logout', authController.logout);
 router.get('/register', userController.registerForm);
+router.get('/account', userController.account);
 
 // POST
 router.post('/add',
@@ -33,5 +34,10 @@ router.post('/register',
 	userController.register,
 	authController.login
 );
+router.post('/login',
+	userController.validateLogin,
+	authController.login
+);
+
 
 module.exports = router;
