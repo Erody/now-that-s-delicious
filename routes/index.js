@@ -16,7 +16,8 @@ router.get('/tags/:tag', catchErrors(storeController.getStoresByTag));
 router.get('/login', userController.loginForm);
 router.get('/logout', authController.logout);
 router.get('/register', userController.registerForm);
-router.get('/account', userController.account);
+router.get('/account', authController.isLoggedIn, userController.account);
+router.get('/account/reset/:token', catchErrors(authController.reset));
 
 // POST
 router.post('/add',
@@ -38,6 +39,14 @@ router.post('/login',
 	userController.validateLogin,
 	authController.login
 );
-
+router.post('/account', catchErrors(userController.updateAccount));
+router.post('/account/forgot',
+	userController.validateForgot,
+	catchErrors(authController.forgot)
+);
+router.post('/account/reset/:token',
+	authController.confirmPassword,
+	catchErrors(authController.update)
+);
 
 module.exports = router;

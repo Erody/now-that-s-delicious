@@ -55,6 +55,36 @@ exports.validateLogin = (req, res, next) => {
 	next();
 };
 
+exports.validateForgot = (req, res, next) => {
+	req.checkBody('email', 'That email is not valid.').isEmail();
+	req.sanitizeBody('email').normalizeEmail({
+		remove_dots: false,
+		remove_extension: false,
+		gmail_remove_subaddress: false
+	});
+	const errors = req.validationErrors();
+	if(errors) {
+		req.flash('error', errors.map(err => err.msg));
+		res.redirect('back');
+		return;
+	}
+	next();
+};
+
 exports.account = (req, res) => {
 	res.render('account', {title: 'Edit your Account'})
+};
+
+exports.updateAccount = async (req, res) => {
+	const updates = {
+		name: req.body.name,
+		email: req.body.email
+	};
+	await User.findOneAndUpdate(
+		{ _id: req.user._id },
+		{ $set: updates },
+		{ new: true, runValidators: true, context: 'query'}
+	);
+	req.flash('success', 'Updated your profile!');
+	res.redirect('back');
 };
