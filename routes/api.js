@@ -5,5 +5,6 @@ const { catchErrors } = require('../handlers/errorHandlers');
 
 // GET
 router.get('/search', catchErrors(storeController.searchStores));
+router.get('/stores/near', catchErrors(storeController.mapStores));
 
 module.exports = router;
