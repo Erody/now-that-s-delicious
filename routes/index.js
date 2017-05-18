@@ -18,6 +18,7 @@ router.get('/logout', authController.logout);
 router.get('/register', userController.registerForm);
 router.get('/account', authController.isLoggedIn, userController.account);
 router.get('/account/reset/:token', catchErrors(authController.reset));
+router.get('/map', storeController.mapPage);
 
 // POST
 router.post('/add',

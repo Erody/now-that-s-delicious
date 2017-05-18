@@ -144,8 +144,13 @@ exports.mapStores = async (req, res) => {
 			slug: 1,
 			name: 1,
 			description: 1,
-			location: 1
+			location: 1,
+			photo: 1
 		})
 		.limit(10);
 	res.json(stores);
+};
+
+exports.mapPage = (req, res) => {
+	res.render('map', {title: 'Map'})
 };
