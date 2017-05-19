@@ -3,6 +3,7 @@ const router = express.Router();
 const storeController = require('../controllers/storeController');
 const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
+const reviewController = require('../controllers/reviewController');
 const { catchErrors } = require('../handlers/errorHandlers');
 
 // GET
@@ -49,6 +50,10 @@ router.post('/account/forgot',
 router.post('/account/reset/:token',
 	authController.confirmPassword,
 	catchErrors(authController.update)
+);
+router.post('/reviews/:id',
+	authController.isLoggedIn,
+	catchErrors(reviewController.addReview)
 );
 
 module.exports = router;
