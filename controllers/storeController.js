@@ -196,6 +196,7 @@ exports.getTopStores = async (req, res) => {
 
 exports.deleteStore = async (req, res) => {
 	const store = await Store.findOne({ _id: req.params.id });
+	confirmOwner(store, req.user);
 	store.remove();
 	req.flash('success', `Succesfully removed the store <strong>${store.name}</strong>.`);
 	res.redirect('/');
