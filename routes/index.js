@@ -11,6 +11,7 @@ router.get('/', catchErrors(storeController.getStores));
 router.get('/stores', catchErrors(storeController.getStores));
 router.get('/stores/page/:page', catchErrors(storeController.getStores));
 router.get('/stores/:id/edit', catchErrors(storeController.editStore));
+router.get('/stores/:id/delete', catchErrors(storeController.deleteStore));
 router.get('/stores/:slug', catchErrors(storeController.getStore));
 router.get('/add', authController.isLoggedIn, storeController.addStore);
 router.get('/tags', catchErrors(storeController.getStoresByTag));

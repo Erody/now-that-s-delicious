@@ -193,3 +193,10 @@ exports.getTopStores = async (req, res) => {
 	const stores = await Store.getTopStores();
 	res.render('topStores', { title: 'Top Stores', stores})
 };
+
+exports.deleteStore = async (req, res) => {
+	const store = await Store.findOne({ _id: req.params.id });
+	store.remove();
+	req.flash('success', `You succesfully removed the store <strong>${store.name}</strong>`);
+	res.redirect('/');
+};
