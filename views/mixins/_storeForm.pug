@@ -24,3 +24,5 @@ mixin storeForm(store = {})
                     input(type="checkbox" id=choice value=choice name="tags" checked=tags.includes(choice))
                     label(for=choice)= choice
         input(type="submit" value="Save").button
+        if store._id
+            a(href=`/stores/${store._id}/delete`).button.button__danger.button__danger--anchor Delete

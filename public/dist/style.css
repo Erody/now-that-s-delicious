@@ -1106,6 +1106,13 @@ label {
   color: #303030;
   font-family: 'Panama';
   font-weight: 600; }
+  .button__danger {
+    background: #E50714; }
+    .button__danger--anchor {
+      display: block;
+      text-align: center;
+      padding: 10px;
+      margin-top: 10px; }
 
 .avatar {
   min-width: 50px;
