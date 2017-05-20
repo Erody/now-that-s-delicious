@@ -21,6 +21,7 @@ router.get('/account', authController.isLoggedIn, userController.account);
 router.get('/account/reset/:token', catchErrors(authController.reset));
 router.get('/map', storeController.mapPage);
 router.get('/hearts', authController.isLoggedIn, catchErrors(storeController.hearts));
+router.get('/top', catchErrors(storeController.getTopStores));
 
 // POST
 router.post('/add',
