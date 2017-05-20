@@ -55,9 +55,27 @@ exports.createStore = async (req, res) => {
 };
 
 exports.getStores = async (req, res) => {
+	const page = req.params.page || 1;
+	const limit = 6;
+	const skip = (page * limit) - limit;
 	// Query the database for a list of all stores
-	const stores = await Store.find();
-	res.render('stores', {title: 'Stores', stores})
+	const storesPromise =  Store
+		.find()
+		.skip(skip)
+		.limit(limit)
+		.sort({ created: 'desc'});
+
+	const countPromise = Store.count();
+
+	const [stores, count] = await Promise.all([storesPromise, countPromise]);
+	const pages = Math.ceil(count / limit);
+	if(!stores.length && skip) {
+		req.flash('info', `The page you asked for (${page}) doesn't exist. I redirected you to the last page.`);
+		res.redirect(`/stores/page/${pages}`);
+		return;
+	}
+	// stores.pug is also used by /hearts, which doesn't have pagination, so pagination variable is needed.
+	res.render('stores', {title: 'Stores', stores, count, page, pages, pagination: true})
 };
 
 exports.getStore = async (req, res, next) => {
